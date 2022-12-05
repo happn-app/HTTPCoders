@@ -16,7 +16,7 @@ let package = Package(
 	dependencies: {
 		var ret = [Package.Dependency]()
 		ret.append(.package(url: "https://github.com/apple/swift-collections.git", from: "1.0.1"))
-		ret.append(.package(url: "https://github.com/Frizlab/stream-reader.git",   from: "3.2.3"))
+		ret.append(.package(url: "https://github.com/Frizlab/stream-reader.git",   from: "3.5.0"))
 		return ret
 	}(),
 	targets: {
