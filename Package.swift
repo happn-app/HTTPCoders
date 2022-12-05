@@ -21,9 +21,6 @@ let package = Package(
 	}(),
 	targets: {
 		var ret = [Target]()
-		ret.append(.target(name: "MediaType", swiftSettings: swiftSettings))
-		ret.append(.testTarget(name: "MediaTypeTests", dependencies: ["MediaType"], swiftSettings: swiftSettings))
-		
 		ret.append(.target(name: "FormDataCoder", dependencies: {
 			var ret = [Target.Dependency]()
 			ret.append(.product(name: "OrderedCollections", package: "swift-collections"))
