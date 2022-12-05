@@ -1,0 +1,39 @@
+// swift-tools-version:5.5
+import PackageDescription
+
+
+let swiftSettings: [SwiftSetting] = []
+//let swiftSettings: [SwiftSetting] = [.unsafeFlags(["-Xfrontend", "-warn-concurrency", "-Xfrontend", "-enable-actor-data-race-checks"])]
+
+let package = Package(
+	name: "HTTPCoders",
+	products: {
+		var ret = [Product]()
+		ret.append(.library(name: "FormDataCoder",       targets: ["FormDataCoder"]))
+		ret.append(.library(name: "FormURLEncodedCoder", targets: ["FormURLEncodedCoder"]))
+		return ret
+	}(),
+	dependencies: {
+		var ret = [Package.Dependency]()
+		ret.append(.package(url: "https://github.com/apple/swift-collections.git", from: "1.0.1"))
+		ret.append(.package(url: "https://github.com/Frizlab/stream-reader.git",   from: "3.2.3"))
+		return ret
+	}(),
+	targets: {
+		var ret = [Target]()
+		ret.append(.target(name: "MediaType", swiftSettings: swiftSettings))
+		ret.append(.testTarget(name: "MediaTypeTests", dependencies: ["MediaType"], swiftSettings: swiftSettings))
+		
+		ret.append(.target(name: "FormDataCoder", dependencies: {
+			var ret = [Target.Dependency]()
+			ret.append(.product(name: "OrderedCollections", package: "swift-collections"))
+			ret.append(.product(name: "StreamReader",       package: "stream-reader"))
+			return ret
+		}(), swiftSettings: swiftSettings))
+		ret.append(.testTarget(name: "FormDataCoderTests", dependencies: ["FormDataCoder"], swiftSettings: swiftSettings))
+		
+		ret.append(.target(name: "FormURLEncodedCoder", swiftSettings: swiftSettings))
+		ret.append(.testTarget(name: "FormURLEncodedCoderTests", dependencies: ["FormURLEncodedCoder"], swiftSettings: swiftSettings))
+		return ret
+	}()
+)
